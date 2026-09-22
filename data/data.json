@@ -1,0 +1,14 @@
+{
+  "analysis": {
+    "average_soiling_loss_percent": 1.7317251453292044,
+    "maximum_soiling_loss_percent": 33.98482970965233,
+    "average_temperature_c": 33.795,
+    "average_solar_irradiation": 7.992676470588236
+  },
+  "defaults": {
+    "capacity_kw": 100,
+    "tariff_iqd_per_kwh": 200,
+    "cleaning_cost_iqd": 240000,
+    "last_cleaning_date": "2026-08-15"
+  }
+}

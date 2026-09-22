@@ -1,0 +1,65 @@
+:root {
+  --ink: #173042;
+  --muted: #6a7f8e;
+  --line: #dce8ee;
+  --sky: #2f78a8;
+  --green: #248c69;
+  --green-soft: #e6f5ef;
+  --amber: #c87c22;
+  --amber-soft: #fff4df;
+  --coral: #c95e45;
+  --coral-soft: #fff0ec;
+}
+
+body { background: #f4f8fa; color: var(--ink); font-family: Georgia, "Times New Roman", serif; }
+.app-shell { padding: 0 0 4rem; max-width: 1600px; }
+.topbar { position: relative; overflow: hidden; background: #173042; color: white; padding: 1rem 0; }
+.topbar > .container { position: relative; z-index: 1; }
+.dust-particles-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.brand-lockup, .header-actions { display: flex; align-items: center; }
+.brand-lockup { gap: .75rem; }
+.brand-mark { width: 2.45rem; height: 2.45rem; border: 1px solid #86cbb8; color: #f4c86a; display: grid; place-items: center; border-radius: 50%; font-size: 1.35rem; }
+.brand-name { font-size: 1.35rem; letter-spacing: .02em; font-weight: 700; }
+.brand-subtitle, .card-eyebrow, .section-kicker { font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: .11em; font-size: .68rem; }
+.brand-subtitle { color: #a9c0cc; margin-top: .15rem; }
+.header-actions { gap: .5rem; }
+.icon-button { color: white !important; font-size: 1.3rem; padding: .35rem .6rem; }
+.dashboard-main { padding: 2rem 3%; }
+.card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 18px 34px rgba(23, 48, 66, .14); }
+.control-panel, .analysis-panel { border: 1px solid var(--line); box-shadow: 0 12px 28px rgba(23, 48, 66, .05); }
+.control-heading { margin-bottom: 1.25rem; }
+.section-kicker { color: var(--sky); font-weight: 700; margin-bottom: .35rem; }
+.section-title { font-size: 1.45rem; margin: 0 0 1.25rem; font-weight: 700; }
+.control-field label { font-family: Arial, sans-serif; font-size: .78rem; color: var(--muted); font-weight: 700; margin-bottom: .45rem; }
+.form-control { border-color: var(--line); padding: .7rem .8rem; }
+.slider-field { padding-bottom: .6rem; }
+.rc-slider-track { background-color: var(--sky); }
+.recalculate-button { margin-top: 1.4rem; font-family: Arial, sans-serif; font-weight: 700; border: 0; padding: .7rem 1.25rem; }
+.financial-section, .performance-section, .scenario-section { margin-top: 2.5rem; }
+.metric-card { border: 0; min-height: 175px; box-shadow: 0 12px 28px rgba(23, 48, 66, .06); border-left: 5px solid var(--sky); }
+.recommendation-card { border-left-color: var(--green); background: var(--green-soft); }
+.info-card { border-left-color: var(--sky); background: #eaf3f9; }
+.loss-card { border-left-color: var(--coral); background: var(--coral-soft); }
+.card-eyebrow { color: var(--muted); font-weight: 700; }
+.card-title { font-size: .95rem; margin-top: .65rem; }
+.card-value { font-size: 2rem; font-weight: 700; margin: .4rem 0; }
+.card-detail { font-family: Arial, sans-serif; color: var(--muted); font-size: .78rem; }
+.recommendation-positive { color: var(--green); }
+.recommendation-caution { color: var(--amber); }
+.recommendation-negative { color: var(--coral); }
+.panel-title { font-size: 1.05rem; margin-bottom: .25rem; }
+.chart-card { height: 100%; border: 1px solid var(--line); box-shadow: 0 12px 28px rgba(23, 48, 66, .05); }
+.chart-card .card-body { padding: 1.25rem; }
+.chart-subtitle { color: var(--muted); font-family: Arial, sans-serif; font-size: .76rem; margin: -.15rem 0 .35rem; }
+.chart-reveal-left { animation: chart-reveal-left 800ms cubic-bezier(.4, 0, .2, 1); }
+@keyframes chart-reveal-left { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.insight-callout { font-family: Arial, sans-serif; background: #f0f6f8; color: var(--sky); padding: .75rem 1rem; font-size: .85rem; border-left: 3px solid var(--sky); }
+.scenario-table { background: white; border: 1px solid var(--line); font-family: Arial, sans-serif; }
+.scenario-table th, .scenario-table td { padding: 1rem 1.25rem; vertical-align: middle; }
+.scenario-table thead th { background: #173042; color: white; border: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+.scenario-table tbody th { color: var(--muted); font-weight: 400; }
+.scenario-table tbody td { color: var(--ink); font-weight: 700; }
+.scenario-table tbody tr { transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; }
+.scenario-table tbody tr:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(23, 48, 66, .1); background-color: #f8fbfc; }
+@media (max-width: 768px) { .dashboard-main { padding: 1.25rem 4%; } .section-title { font-size: 1.25rem; } .card-value { font-size: 1.7rem; } }
