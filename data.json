@@ -1,0 +1,30 @@
+{
+  "psh": 7.99,
+  "psh_source": "متوسط بيانات NASA POWER لبغداد (15 مايو - 17 يونيو 2020)",
+
+  "pr": 0.80,
+  "pr_source": "افتراض قياسي لمعامل أداء المنظومات الشمسية",
+
+  "daily_soiling_rate": 0.0103,
+  "daily_soiling_rate_source": "مشتق من: 33.98% أقصى خسارة تلوث مرصودة فعلياً / 33 يوماً بدون تنظيف",
+
+  "max_soiling_cap": 0.40,
+  "max_soiling_cap_source": "حد أقصى منطقي لخسارة الغبار حسب المعادلات",
+
+  "temp_loss_percent": 11.5,
+  "temp_loss_percent_source": "تقدير ثابت مبني على متوسط حرارة بغداد 33.8°م ومعامل حرارة نموذجي لأشباه الموصلات",
+
+  "cleaning_cost_per_kw_iqd": 2400,
+  "cleaning_cost_per_kw_iqd_source": "1200 د.ع لكل لوح (خزان مياه 500 + أجرة عامل 600 + مواد تنظيف 100) على أساس لوح 0.5 كيلوواط",
+
+  "default_tariff_iqd": 200,
+  "tariff_min_iqd": 10,
+  "tariff_max_iqd": 500,
+  "tariff_source": "متوسط محافظ بين التعرفة الحكومية (10-120 د.ع/ك.و.س) وتكلفة المولدات الخاصة (300-500 د.ع/ك.و.س)",
+
+  "payback_threshold_days": 14,
+  "payback_threshold_days_source": "العتبة المعتمدة لتوصية التنظيف - قابلة للتعديل من قبل الشخص 3",
+
+  "baseline_gloss": 95.66,
+  "baseline_gloss_source": "قراءة اللمعان الأساسية للوح النظيف من بيانات القياس الفعلية"
+}
