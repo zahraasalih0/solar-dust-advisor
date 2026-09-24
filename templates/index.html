@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>لوحة قرار تنظيف الألواح الشمسية — SolarOptima</title>
+<title>SolarOptima - دعم قرار تنظيف الألواح</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='13' fill='%23E3A94E'/%3E%3Cg stroke='%23E3A94E' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M32 5v10M32 49v10M5 32h10M49 32h10M13 13l7 7M44 44l7 7M51 13l-7 7M20 44l-7 7'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -57,13 +58,16 @@
     font-size:0.72rem; color:var(--gold); border:1px solid var(--gold-dim);
     padding:5px 12px; border-radius:100px; white-space:nowrap; font-weight:500;
   }
+  .tabs{display:flex; gap:6px; margin-bottom:28px; border-bottom:1px solid var(--border); padding-bottom:10px;}
+  .tab{color:var(--muted); text-decoration:none; font-size:0.88rem; font-weight:700; padding:8px 14px; border-bottom:2px solid transparent;}
+  .tab:hover, .tab.active{color:var(--gold); border-bottom-color:var(--gold);}
 
   /* ---------- control panel ---------- */
   .panel-title{
     font-size:0.78rem; color:var(--muted); font-weight:700; margin:0 0 10px 2px;
   }
   .controls{
-    background:var(--panel); border:1px solid var(--border); border-radius:4px;
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
     padding:20px; margin-bottom:28px;
     display:grid; grid-template-columns:repeat(4,1fr); gap:22px;
   }
@@ -72,14 +76,14 @@
   .capacity-group{display:flex; flex-wrap:wrap; gap:6px;}
   .cap-btn{
     background:transparent; border:1px solid var(--border-strong); color:var(--text);
-    padding:7px 12px; border-radius:3px; font-family:inherit; font-size:0.82rem;
+    padding:7px 12px; border-radius:9px; font-family:inherit; font-size:0.82rem;
     cursor:pointer; transition:border-color .15s, color .15s, background .15s;
   }
   .cap-btn:hover{border-color:var(--gold-dim);}
   .cap-btn.active{background:var(--gold); border-color:var(--gold); color:#1B1405; font-weight:700;}
   .cap-custom{
     width:76px; background:var(--panel-raised); border:1px solid var(--border-strong);
-    color:var(--text); padding:6px 8px; border-radius:3px; font-family:inherit; font-size:0.82rem;
+    color:var(--text); padding:6px 8px; border-radius:12px; font-family:inherit; font-size:0.82rem;
     display:none;
   }
   input[type="range"]{
@@ -88,7 +92,7 @@
   .range-val{font-size:1.05rem; font-weight:800; color:var(--gold); margin-top:6px;}
   .num-input{
     width:100%; background:var(--panel-raised); border:1px solid var(--border-strong);
-    color:var(--text); padding:9px 10px; border-radius:3px; font-family:inherit; font-size:0.9rem;
+    color:var(--text); padding:9px 10px; border-radius:12px; font-family:inherit; font-size:0.9rem;
   }
   .num-input:focus, .cap-custom:focus{outline:none; border-color:var(--gold);}
   .auto-reset{
@@ -99,15 +103,45 @@
 
   /* ---------- hero decision ---------- */
   .hero{
-    border-radius:4px; padding:26px 26px; margin-bottom:20px;
+    border-radius:14px; padding:26px 26px; margin-bottom:20px;
     border:1px solid var(--border-strong); border-right:5px solid var(--green);
     background:linear-gradient(180deg, rgba(95,174,125,0.10), rgba(95,174,125,0));
     display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    --hero-glow:rgba(95,174,125,0.34);
+    animation:pulse-glow 2.5s ease-in-out infinite;
     transition:border-color .25s, background .25s;
   }
-  .hero.warn{border-right-color:var(--red); background:linear-gradient(180deg, rgba(199,84,80,0.10), rgba(199,84,80,0));}
+  .hero.warn{--hero-glow:rgba(199,84,80,0.52); border-right-color:var(--red); background:linear-gradient(180deg, rgba(199,84,80,0.10), rgba(199,84,80,0));}
+  @keyframes pulse-glow{
+    0%,100%{box-shadow:0 0 0 0 var(--hero-glow);}
+    50%{box-shadow:0 0 18px 2px var(--hero-glow);}
+  }
+  @keyframes icon-decision-change{
+    0%{transform:scale(1);}
+    45%{transform:scale(1.18);}
+    100%{transform:scale(1);}
+  }
+  @keyframes warning-shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-2px);}
+    50%{transform:translateX(2px);}
+    75%{transform:translateX(-1px);}
+  }
+  @keyframes recalculate-flash{
+    0%{background:var(--panel);}
+    35%{background:rgba(255,183,3,0.13);}
+    100%{background:var(--panel);}
+  }
+  .hero.decision-shake{animation:warning-shake .28s ease-out, pulse-glow 2.5s ease-in-out infinite .28s;}
   .hero-left{display:flex; align-items:center; gap:16px;}
   .hero-icon{font-size:2.1rem; line-height:1;}
+  .hero-icon{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:2px solid currentColor;border-radius:50%;font-size:1.8rem;font-weight:900;}
+  .hero:not(.warn) .hero-icon{color:var(--green);}
+  .hero.warn .hero-icon{color:var(--red);}
+  .hero-icon.decision-change{animation:icon-decision-change .36s ease-out;}
+  .reveal{opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; transition-delay:var(--reveal-delay,0ms);}
+  .reveal.is-visible{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none;}}
   .hero h2{margin:0 0 4px; font-size:1.5rem; font-weight:900;}
   .hero p{margin:0; color:var(--muted); font-size:0.88rem;}
   .hero-right{text-align:left; direction:ltr;}
@@ -118,11 +152,12 @@
   .metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px;}
   @media (max-width:700px){ .metrics{grid-template-columns:1fr;} }
   .metric{
-    background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:18px 18px;
+    background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px 18px;
   }
   .metric .m-label{font-size:0.78rem; color:var(--muted); margin-bottom:10px; font-weight:500;}
   .metric .m-value{font-size:1.5rem; font-weight:800;}
   .metric .m-sub{font-size:0.74rem; color:var(--muted); margin-top:4px;}
+  .metric.recalculate-flash{animation:recalculate-flash .8s ease-out;}
   .metric.loss .m-value{color:var(--red);}
   .metric.gain .m-value{color:var(--green);}
 
@@ -133,7 +168,7 @@
 
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
   @media (max-width:780px){ .grid2{grid-template-columns:1fr;} }
-  .card{background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:20px;}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px;}
 
   /* root cause bars */
   .bar-row{margin-bottom:16px;}
@@ -147,16 +182,18 @@
   .gloss-note{font-size:0.72rem; color:var(--muted); margin-top:14px; border-top:1px dashed var(--border-strong); padding-top:12px;}
 
   /* forecast chart */
-  .chart-wrap svg{width:100%; height:auto; display:block;}
+  .forecast-chart{width:100%; height:260px;}
 
   /* echarts data-analysis section */
   .echart{width:100%; height:220px;}
+  .analysis-grid .echart{height:270px;}
   .analysis-note{font-size:0.78rem; color:var(--muted); margin-bottom:18px;}
   .card-title{font-size:0.82rem; color:var(--muted); margin-bottom:6px;}
   .card-figure{font-size:1.1rem; font-weight:800; color:var(--gold); margin-bottom:10px;}
   .chart-legend{display:flex; gap:16px; font-size:0.72rem; color:var(--muted); margin-top:8px;}
   .chart-legend span{display:flex; align-items:center; gap:5px;}
   .chart-legend i{width:9px; height:9px; border-radius:2px; display:inline-block;}
+  .dashboard-label{font-size:0.78rem; color:var(--gold); font-weight:800; letter-spacing:0.2px; margin:4px 0 12px;}
 
   /* scenario table */
   table{width:100%; border-collapse:collapse; font-size:0.86rem;}
@@ -166,16 +203,26 @@
   tr:last-child td{border-bottom:none;}
   .scenA{color:var(--green); font-weight:800;}
   .scenB{color:var(--red); font-weight:800;}
+  .scenOptimal{color:var(--gold); font-weight:800;}
+  .annual-saving{margin-top:14px;background:var(--panel);border:1px solid var(--border);border-right:4px solid var(--gold);border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .annual-saving h4{margin:0 0 3px;font-size:.9rem}.annual-saving p{margin:0;color:var(--muted);font-size:.76rem}.annual-saving .value{color:var(--gold);font-size:1.55rem;font-weight:900;white-space:nowrap;direction:ltr}
+  @media (max-width:780px){.annual-saving{align-items:flex-start;flex-direction:column}.annual-saving .value{font-size:1.35rem}}
 
   .export-row{display:flex; justify-content:flex-end; margin-top:16px;}
+  .share-btn{background:transparent;color:var(--gold);border:1px solid var(--gold-dim);padding:10px 16px;border-radius:9px;font-family:inherit;font-weight:800;font-size:.82rem;cursor:pointer;}
+  .share-btn:hover{background:rgba(227,169,78,.1);}
+  .share-status{color:var(--green);font-size:.78rem;align-self:center;min-width:75px;}
+  .reset-field{display:flex;align-items:end;}
+  .reset-btn{background:transparent;color:var(--muted);border:1px solid var(--border-strong);padding:8px 12px;border-radius:9px;font-family:inherit;font-size:.78rem;cursor:pointer;}
+  .reset-btn:hover{color:var(--gold);border-color:var(--gold-dim);}
   .btn{
-    background:var(--gold); color:#1B1405; border:none; padding:11px 22px; border-radius:3px;
+    background:var(--gold); color:#1B1405; border:none; padding:11px 22px; border-radius:9px;
     font-family:inherit; font-weight:800; font-size:0.86rem; cursor:pointer;
   }
   .btn:hover{background:#eeb85e;}
 
   /* assumptions */
-  details.assump{background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:16px 18px;}
+  details.assump{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px 18px;}
   details.assump summary{cursor:pointer; font-weight:700; font-size:0.88rem; color:var(--gold);}
   details.assump ul{margin:14px 0 0; padding-inline-start:20px; color:var(--muted); font-size:0.82rem; line-height:1.8;}
   details.assump li b{color:var(--text);}
@@ -190,7 +237,7 @@
     .badge{display:none;}
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js"></script>
+<script src="{{ url_for('static', filename='echarts.min.js') }}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -212,51 +259,63 @@
       </svg>
       <div>
         <h1>لوحة قرار تنظيف الألواح الشمسية</h1>
-        <p>SolarOptima — يحوّل بيانات الغبار والطقس إلى قرار مالي واضح</p>
+        <p>قرار مالي واضح </p>
       </div>
     </div>
-    <div class="badge">بيانات NASA POWER + تحليل تلوث فعلي — بغداد</div>
+    <div class="badge">SolarOptima - Smart Decision Support </div>
   </header>
 
-  <div class="panel-title">شريط التحكم — أي تغيير يحدّث كل الأرقام فوراً</div>
+  <nav class="tabs" aria-label="التنقل الرئيسي">
+    <a class="tab" href="/">تحليل البيانات</a>
+    <a class="tab active" href="/decision">دعم القرار</a>
+  </nav>
+
+  <div class="dashboard-label">حاسبة دعم القرار</div>
+  <div class="panel-title">بيانات ألواحك</div>
   <div class="controls">
     <div class="field">
-      <label>حجم المنظومة</label>
+      <label>حجم المنظومة (كيلوواط)</label>
       <div class="capacity-group" id="capGroup">
-        <button class="cap-btn" data-cap="10">10 kW</button>
-        <button class="cap-btn" data-cap="50">50 kW</button>
-        <button class="cap-btn active" data-cap="100">100 kW</button>
-        <button class="cap-btn" data-cap="500">500 kW</button>
+        <button class="cap-btn" data-cap="10">10 كيلوواط</button>
+        <button class="cap-btn" data-cap="50">50 كيلوواط</button>
+        <button class="cap-btn active" data-cap="100">100 كيلوواط</button>
+        <button class="cap-btn" data-cap="500">500 كيلوواط</button>
         <button class="cap-btn" data-cap="custom">مخصص</button>
       </div>
-      <input type="number" id="capCustom" class="cap-custom" min="1" step="1" placeholder="kW">
+      <input type="number" id="capCustom" class="cap-custom" min="1" step="1" placeholder="كيلوواط">
     </div>
 
     <div class="field">
-      <label>سعر الكهرباء (دينار / ك.و.س)</label>
+      <label>سعر الكهرباء
+
+      </label>
       <input type="range" id="tariff" min="10" max="500" step="5" value="200">
       <div class="range-val" id="tariffVal">200 د.ع</div>
     </div>
 
     <div class="field">
-      <label>تكلفة التنظيف (دينار عراقي)</label>
+      <label>تكلفة تنظيف الألواح  (د.ع)
+      </label>
       <input type="number" id="cleanCost" class="num-input" min="0" step="1000">
-      <button class="auto-reset" id="autoReset">↺ استخدام القيمة المقترحة (حسب حجم المنظومة)</button>
+      <button class="auto-reset" id="autoReset">↺ استخدام القيمة المقترحة (حسب حجم منظومة مصنعك)</button>
     </div>
 
     <div class="field">
-      <label>تاريخ آخر تنظيف</label>
+      <label>تاريخ آخر تنظيف لألواح </label>
       <input type="date" id="lastClean" class="num-input">
+    </div>
+    <div class="field reset-field">
+      <button type="button" class="reset-btn" id="resetDefaults">↺ إعادة تعيين</button>
     </div>
   </div>
 
   <!-- HERO DECISION -->
-  <div class="hero" id="hero">
+  <div class="hero reveal" id="hero">
     <div class="hero-left">
-      <div class="hero-icon" id="heroIcon">🟢</div>
+      <div class="hero-icon" id="heroIcon" aria-label="حالة القرار">✓</div>
       <div>
-        <h2 id="heroTitle">نظّف الألواح اليوم — إجراء مربح</h2>
-        <p id="heroSub">فترة الاسترداد أقل من عتبة 14 يوم المعتمدة للتوصية</p>
+        <h2 id="heroTitle">تنظيف الألواح الشمسية اليوم — إجراء مربح</h2>
+        <p id="heroSub">تتم مقارنة الأيام منذ آخر تنظيف بالتكرار الأمثل المحسوب</p>
       </div>
     </div>
     <div class="hero-right">
@@ -267,17 +326,17 @@
 
   <!-- METRIC CARDS -->
   <div class="metrics">
-    <div class="metric loss">
+    <div class="metric loss reveal">
       <div class="m-label">الخسارة المالية اليومية بسبب الغبار</div>
       <div class="m-value" id="mDaily">—</div>
       <div class="m-sub">دينار / يوم</div>
     </div>
-    <div class="metric loss">
+    <div class="metric loss reveal">
       <div class="m-label">الخسارة المتوقعة خلال 7 أيام لو ما نُظّف</div>
       <div class="m-value" id="mWeek">—</div>
       <div class="m-sub">دينار خلال أسبوع واحد</div>
     </div>
-    <div class="metric">
+    <div class="metric reveal">
       <div class="m-label">التكرار الأمثل للتنظيف</div>
       <div class="m-value" id="mOptimal">—</div>
       <div class="m-sub">كل X يوم يعطي أفضل عائد على تكلفة الغسيل</div>
@@ -285,7 +344,7 @@
   </div>
 
   <!-- ROOT CAUSE + FORECAST -->
-  <div class="section">
+  <div class="section reveal">
     <h3><span class="dot"></span> التحليل الفني والتنبؤ بالأداء</h3>
     <div class="grid2">
       <div class="card">
@@ -294,18 +353,20 @@
           <div class="bar-track"><div class="bar-fill dust" id="dustBar" style="width:0%"></div></div>
         </div>
         <div class="bar-row">
-          <div class="bar-top"><span>خسارة الحرارة (معدل حرارة بغداد)</span><span class="val" id="heatPct">—</span></div>
+          <div class="bar-top"><span>خسارة الحرارة
+          (معدل الحرارة)
+          </span><span class="val" id="heatPct">—</span></div>
           <div class="bar-track"><div class="bar-fill heat" id="heatBar" style="width:0%"></div></div>
         </div>
         <div class="bar-row">
-          <div class="bar-top"><span>مؤشر التلوث الحالي (Soiling Index)</span><span class="val" id="soilPct">—</span></div>
+          <div class="bar-top"><span>مؤشر التلوث الحالي (تأثير الغبار)</span><span class="val" id="soilPct">—</span></div>
           <div class="bar-track"><div class="bar-fill dust" id="soilBar" style="width:0%"></div></div>
         </div>
         <div class="gloss-note">مرجع القياس الفعلي: قراءة اللمعان الأساسية للوح النظيف 95.66 — كلما اقترب المؤشر من الحد الأقصى، كلما زادت الحاجة للتنظيف.</div>
       </div>
       <div class="card">
-        <div style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">منحنى الأداء المتوقع — 14 يوم قادمة بدون تنظيف</div>
-        <div class="chart-wrap"><svg id="forecastSvg" viewBox="0 0 340 160" preserveAspectRatio="none"></svg></div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">الإنتاج المتوقع لألواح مصنعك — 14 يوماً بدون تنظيف</div>
+        <div id="forecastChart" class="forecast-chart"></div>
         <div class="chart-legend">
           <span><i style="background:var(--gold)"></i> نسبة الأداء المتبقي (%)</span>
         </div>
@@ -313,60 +374,40 @@
     </div>
   </div>
 
-  <!-- DATA ANALYSIS (real recorded data, not reactive to the control panel) -->
-  <div class="section">
-    <h3><span class="dot"></span> تحليل البيانات الفعلي (15 مايو – 17 يونيو 2020)</h3>
-    <div class="analysis-note">هذا الجزء يعرض نتائج التحليل الفعلي على بيانات الإشعاع والإنتاج والتلوث والحرارة — أرقام ثابتة من الفترة المرصودة، ما تتغير مع شريط التحكم بالأعلى.</div>
-    <div class="grid2">
-      <div class="card">
-        <div class="card-title">الارتباط بين الإشعاع الشمسي وإنتاج الطاقة</div>
-        <div class="card-figure" id="corrFigure">—</div>
-        <div id="chartCorrelation" class="echart"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">مدى الحرارة والإشعاع المسجّل ببغداد</div>
-        <div id="chartWeather" class="echart"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">حالات إشعاع عالٍ مع إنتاج منخفض عن المتوقع</div>
-        <div class="card-figure" id="probFigure">—</div>
-        <div id="chartProblems" class="echart"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">مدى خسارة التلوث المرصودة (متوسط مقابل أقصى حالة)</div>
-        <div id="chartSoiling" class="echart"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- SCENARIOS -->
-  <div class="section">
+  <div class="section reveal">
     <h3><span class="dot"></span> سيناريوهات ما بعد القرار (خلال 30 يوم)</h3>
     <div class="card">
       <table>
-        <tr><th>المؤشر</th><th>السيناريو أ: تنظيف اليوم</th><th>السيناريو ب: تجاهل 30 يوم</th></tr>
-        <tr><td>صافي العائد المتوقع</td><td class="scenA" id="scenANet">—</td><td class="scenB" id="scenBNet">—</td></tr>
-        <tr><td>مستوى الكفاءة</td><td class="scenA" id="scenAEff">—</td><td class="scenB" id="scenBEff">—</td></tr>
+        <tr><th>المؤشر</th><th>السيناريو أ: تنظيف اليوم</th><th>السيناريو ب: تجاهل 30 يوم</th><th>السيناريو ج: التنظيف بالتوقيت الأمثل</th></tr>
+        <tr><td>صافي العائد المتوقع</td><td class="scenA" id="scenANet">—</td><td class="scenB" id="scenBNet">—</td><td class="scenOptimal" id="scenCNet">—</td></tr>
+        <tr><td>مستوى الكفاءة</td><td class="scenA" id="scenAEff">—</td><td class="scenB" id="scenBEff">—</td><td class="scenOptimal" id="scenCEff">—</td></tr>
       </table>
+      <div class="annual-saving">
+        <div><h4>التوفير السنوي المتوقع</h4><p id="annualSavingNote">بافتراض استمرار نفس ظروف الغبار والحرارة الحالية طول السنة</p></div>
+        <div class="value" id="annualSaving">—</div>
+      </div>
       <div class="export-row">
         <button class="btn" onclick="window.print()">📄 تصدير تقرير الجدوى (PDF)</button>
+        <button class="share-btn" id="shareResult" type="button">مشاركة النتيجة</button>
+        <span class="share-status" id="shareStatus" role="status" aria-live="polite"></span>
       </div>
     </div>
   </div>
 
   <!-- ASSUMPTIONS -->
-  <details class="assump">
-    <summary>الافتراضات والمعطيات المستخدمة في الحساب</summary>
+  <details class="assump reveal">
+    <summary>المعلومات والافتراضات المستخدمة لحساب قرار مصنعك</summary>
     <ul>
-      <li><b>ساعات الذروة الشمسية (PSH):</b> 7.99 ساعة/يوم — متوسط بيانات NASA POWER لبغداد (15 مايو – 17 يونيو).</li>
-      <li><b>معامل الأداء (PR):</b> 0.80 — افتراض قياسي للمنظومات الشمسية.</li>
-      <li><b>معدل تراكم الغبار اليومي (r):</b> 1.03% في اليوم — مشتق من أقصى خسارة تلوث مرصودة فعلياً (33.98% خلال نحو 33 يوماً بدون تنظيف).</li>
+      <li><b>ساعات الشمس القوية (PSH):</b> 7.99 ساعة/يوم — متوسط الوقت المتوقع لإنتاج الطاقة من الشمس.</li>
+      <li><b>كفاءة المنظومة (PR):</b> 0.80 — نسبة تقريبية من طاقة الشمس تصل فعلياً إلى إنتاج الكهرباء.</li>
+      <li><b>معدل تراكم الغبار اليومي (r):</b> <span id="rRateNote">—</span> — مقدار انخفاض الإنتاج المتوقع كل يوم بسبب الغبار.</li>
       <li><b>الحد الأقصى المعقول لخسارة الغبار:</b> 40% من الإنتاج.</li>
-      <li><b>خسارة الحرارة:</b> تقدير ثابت 11.5% مبني على متوسط حرارة بغداد (33.8°م) ومعامل حرارة نموذجي لأشباه الموصلات.</li>
+          <li><b>خسارة الحرارة:</b> <span id="tempLossNote">—</span> — محسوبة بانحدار خطي فعلي من بيانات حرارة المجمع ونسبة الخسارة.</li>
       <li><b>تكلفة التنظيف المقترحة:</b> 2,400 د.ع لكل كيلوواط (خزان مياه 500 + أجرة عامل 600 + مواد تنظيف 100 د.ع لكل لوح 0.5 كيلوواط).</li>
       <li><b>سعر الكهرباء الافتراضي:</b> 200 د.ع/ك.و.س — متوسط محافظ بين التعرفة الحكومية (10–120) وتكلفة المولدات الخاصة (300–500).</li>
-      <li><b>عتبة التوصية:</b> يُنصح بالتنظيف إذا كانت فترة الاسترداد أقل من 14 يوماً.</li>
-      <li>كل الأرقام أعلاه افتراضات أولية قابلة للتعديل من قبل صاحب المحطة بعد التجربة الفعلية.</li>
+      <li><b>قاعدة التوصية:</b> يُنصح بالتنظيف عندما تصل الأيام منذ آخر تنظيف إلى التكرار الأمثل المحسوب.</li>
+      <li>كل الأرقام أعلاه تقديرات إرشادية تساعد صاحب المصنع على اتخاذ قرار التنظيف.</li>
     </ul>
   </details>
 
@@ -383,15 +424,23 @@
   let MAX_LOSS_CAP = 0.40;
   let CLEAN_COST_PER_KW = 2400;
   let TEMP_LOSS_PERCENT = 11.5;
-  let THRESHOLD_DAYS = 14;
   let BASELINE_GLOSS = 95.66;
   let DEFAULT_TARIFF = 200;
   let TARIFF_MIN = 10;
   let TARIFF_MAX = 500;
+  let previousDecision = null;
+  let warningShakeShown = false;
 
   let state = { capacity: 100, tariff: DEFAULT_TARIFF, cleanCost: 100*CLEAN_COST_PER_KW, autoCost: true, lastClean: null };
+  let forecastChart = null;
 
   function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+  function localIsoDate(date){
+    const year = date.getFullYear();
+    const month = String(date.getMonth()+1).padStart(2,'0');
+    const day = String(date.getDate()).padStart(2,'0');
+    return `${year}-${month}-${day}`;
+  }
   function daysSince(dateStr){
     const last = new Date(dateStr + 'T00:00:00');
     const today = new Date();
@@ -403,6 +452,55 @@
     let s = 0;
     for(let i=1;i<=N;i++){ s += E * lossFracAt(d+i) * T; }
     return s;
+  }
+
+  function animateNumber(element, target, formatter, duration=560){
+    if(element._animationFrame) cancelAnimationFrame(element._animationFrame);
+    if(!Number.isFinite(target)){
+      element.textContent = '—';
+      element._animatedValue = null;
+      return;
+    }
+    const start = Number.isFinite(element._animatedValue) ? element._animatedValue : 0;
+    const startedAt = performance.now();
+    const easeOut = progress => 1 - Math.pow(1 - progress, 3);
+    const tick = now => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const value = start + (target - start) * easeOut(progress);
+      element._animatedValue = value;
+      element.textContent = formatter(value);
+      if(progress < 1) element._animationFrame = requestAnimationFrame(tick);
+    };
+    element._animationFrame = requestAnimationFrame(tick);
+  }
+
+  function flashMetricCards(){
+    ['mDaily','mWeek','mOptimal'].forEach(id => {
+      const card = document.getElementById(id).closest('.metric');
+      card.classList.remove('recalculate-flash');
+      void card.offsetWidth;
+      card.classList.add('recalculate-flash');
+    });
+  }
+
+  let revealObserver;
+  function initScrollReveal(){
+    if(revealObserver || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.reveal').forEach(element=>element.classList.add('is-visible'));
+      return;
+    }
+    revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      entry.target.classList.toggle('is-visible', entry.isIntersecting);
+    }),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.reveal').forEach((element,index)=>{
+      element.style.setProperty('--reveal-delay',`${Math.min(index,5)*70}ms`);
+      revealObserver.observe(element);
+    });
+    requestAnimationFrame(()=>document.querySelectorAll('.reveal').forEach(element=>{
+      const bounds=element.getBoundingClientRect();
+      const visible=bounds.top<window.innerHeight*.94&&bounds.bottom>window.innerHeight*.06;
+      element.classList.toggle('is-visible',visible);
+    }));
   }
 
   function compute(){
@@ -421,6 +519,15 @@
     const netCleanToday30 = T*E*R_DAILY*d*30 - C;
     const ignore30 = sumLossIqd(d, 30, E, T);
     const scenBEff = 100 - lossFracAt(d+30)*100;
+    const optimalInterval = Math.max(1, optimal);
+    const netOptimal30 = T*E*R_DAILY*optimalInterval*30 - C;
+    const noCleaningAnnualLoss = sumLossIqd(0, 365, E, T);
+    let optimalAnnualLoss = 0;
+    for(let day=1; day<=365; day++){
+      const dayInCycle = ((day-1) % optimalInterval) + 1;
+      optimalAnnualLoss += E * lossFracAt(dayInCycle) * T;
+    }
+    const annualSaving = noCleaningAnnualLoss - optimalAnnualLoss - (365/optimalInterval)*C;
 
     const forecast = [];
     for(let i=0;i<=14;i++){
@@ -428,67 +535,63 @@
     }
 
     return { P,T,C,d,E,lossFrac,dailyLossKwh,dailyLossIqd,payback,sevenDay,optimal,
-      netCleanToday30, ignore30, scenBEff, forecast };
+      netCleanToday30, ignore30, scenBEff, netOptimal30, annualSaving, forecast };
   }
 
-  function buildForecastSvg(forecast){
-    const w=340, h=160, padL=28, padR=8, padT=10, padB=22;
-    const innerW = w-padL-padR, innerH = h-padT-padB;
-    const minEff = Math.max(0, Math.min(...forecast.map(f=>f.eff)) - 5);
-    const maxEff = 100;
-    const x = i => padL + (i/14)*innerW;
-    const y = v => padT + innerH - ((v-minEff)/(maxEff-minEff))*innerH;
-
-    let path = '';
-    forecast.forEach((f,idx)=>{
-      const cmd = idx===0 ? 'M' : 'L';
-      path += `${cmd}${x(f.day).toFixed(1)},${y(f.eff).toFixed(1)} `;
-    });
-    let area = `M${x(0).toFixed(1)},${y(minEff).toFixed(1)} ` + path + `L${x(14).toFixed(1)},${y(minEff).toFixed(1)} Z`;
-
-    let grid = '';
-    for(let g=0; g<=2; g++){
-      const gy = padT + (innerH/2)*g;
-      grid += `<line x1="${padL}" y1="${gy.toFixed(1)}" x2="${w-padR}" y2="${gy.toFixed(1)}" stroke="rgba(237,234,233,0.08)" stroke-width="1"/>`;
-    }
-    const label0 = `<text x="2" y="${(y(maxEff)+4).toFixed(1)}" font-size="9" fill="#96A1AC">100%</text>`;
-    const labelMin = `<text x="2" y="${(y(minEff)+4).toFixed(1)}" font-size="9" fill="#96A1AC">${Math.round(minEff)}%</text>`;
-    const xlabels = `<text x="${padL}" y="${h-4}" font-size="9" fill="#96A1AC">اليوم</text><text x="${w-padR-30}" y="${h-4}" font-size="9" fill="#96A1AC">+14 يوم</text>`;
-
-    return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="overflow:visible">
-      <defs>
-        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#E3A94E" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#E3A94E" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      ${grid}
-      <path d="${area}" fill="url(#areaGrad)"/>
-      <path d="${path}" fill="none" stroke="#E3A94E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-      ${label0}${labelMin}${xlabels}
-    </svg>`;
+  function renderForecastChart(forecast){
+    if(typeof echarts === 'undefined') return;
+    if(!forecastChart) forecastChart = echarts.init(document.getElementById('forecastChart'));
+    const minPerformance = Math.max(0, Math.floor(Math.min(...forecast.map(point=>point.eff))/2)*2);
+    const performanceData = forecast.map(point=>point.eff);
+    forecastChart.setOption({
+      textStyle:{color:'#EDEAE9',fontFamily:'Tajawal'},
+      grid:{left:48,right:20,top:24,bottom:38},
+      tooltip:{trigger:'axis',formatter:items=>{
+        const item=items[0];
+        return `اليوم ${item.axisValue}: نسبة الأداء ${item.value}%`;
+      }},
+      xAxis:{type:'category',data:forecast.map(point=>point.day),axisLine:{lineStyle:{color:'#96A1AC'}},axisLabel:{color:'#96A1AC',interval:1},axisTick:{alignWithLabel:true}},
+      yAxis:{type:'value',min:minPerformance,max:100,interval:2,name:'نسبة الأداء %',nameTextStyle:{color:'#96A1AC'},axisLine:{lineStyle:{color:'#96A1AC'}},axisLabel:{color:'#96A1AC',formatter:value=>`${value}%`},splitLine:{show:true,lineStyle:{color:'rgba(237,234,233,0.10)'}}},
+      series:[{name:'نسبة الأداء المتبقي (%)',type:'line',data:performanceData,symbol:'circle',symbolSize:6,lineStyle:{color:'#E3A94E',width:2.4},itemStyle:{color:'#E3A94E'},areaStyle:{color:'rgba(227,169,78,0.06)'},markPoint:{symbol:'circle',symbolSize:13,itemStyle:{color:'#E3A94E',borderColor:'#EDEAE9',borderWidth:2},label:{show:true,position:'right',color:'#E3A94E',fontSize:11,fontWeight:800,formatter:params=>`${Number(params.value).toFixed(1)}% باليوم 14`},data:[{coord:[14,performanceData[performanceData.length-1]],value:performanceData[performanceData.length-1]}]}}]
+    }, true);
   }
 
-  function render(){
+  function render(options = {}){
     const r = compute();
 
     // hero
     const hero = document.getElementById('hero');
-    const isClean = r.payback < THRESHOLD_DAYS;
+    const isClean = Number.isFinite(r.optimal) && r.d >= r.optimal;
+    const decisionChanged = previousDecision !== null && previousDecision !== isClean;
     hero.classList.toggle('warn', !isClean);
-    document.getElementById('heroIcon').textContent = isClean ? '🟢' : '🔴';
+    const heroIcon = document.getElementById('heroIcon');
+    heroIcon.textContent = isClean ? '✓' : '×';
+    if(decisionChanged){
+      heroIcon.classList.remove('decision-change');
+      void heroIcon.offsetWidth;
+      heroIcon.classList.add('decision-change');
+    }
+    if(decisionChanged && !isClean && !warningShakeShown){
+      warningShakeShown = true;
+      hero.classList.remove('decision-shake');
+      void hero.offsetWidth;
+      hero.classList.add('decision-shake');
+      setTimeout(() => hero.classList.remove('decision-shake'), 300);
+    }
+    previousDecision = isClean;
     document.getElementById('heroTitle').textContent = isClean
-      ? 'نظّف الألواح اليوم — إجراء مربح'
-      : 'التأجيل أفضل حالياً';
+      ? 'نظّف الألواح الشمسية اليوم — إجراء مربح'
+      : 'تأجيل التنظيف أفضل  حالياً';
     document.getElementById('heroSub').textContent = isClean
-      ? `فترة الاسترداد أقل من عتبة ${THRESHOLD_DAYS} يوم المعتمدة للتوصية`
-      : `فترة الاسترداد أطول من عتبة ${THRESHOLD_DAYS} يوم — التنظيف الآن غير مجدٍ اقتصادياً بعد`;
-    document.getElementById('heroPayback').textContent = isFinite(r.payback) ? r.payback.toFixed(1) : '—';
+      ? `مرّ ${r.d} يوم منذ آخر تنظيف — وصلنا إلى التكرار الأمثل المحسوب (${Math.round(r.optimal)} يوم)، وحان وقت التنظيف`
+      : `مرّ ${r.d} يوم منذ آخر تنظيف — ما زال أقل من التكرار الأمثل المحسوب (${Math.round(r.optimal)} يوم)`;
+    animateNumber(document.getElementById('heroPayback'), r.payback, value => value.toFixed(1));
 
     // metric cards
-    document.getElementById('mDaily').textContent = fmt(r.dailyLossIqd) + ' د.ع';
-    document.getElementById('mWeek').textContent = fmt(r.sevenDay) + ' د.ع';
-    document.getElementById('mOptimal').textContent = (isFinite(r.optimal) ? Math.round(r.optimal) : '—') + ' يوم';
+    animateNumber(document.getElementById('mDaily'), r.dailyLossIqd, value => fmt(value) + ' د.ع');
+    animateNumber(document.getElementById('mWeek'), r.sevenDay, value => fmt(value) + ' د.ع');
+    animateNumber(document.getElementById('mOptimal'), r.optimal, value => Math.round(value) + ' يوم');
+    if(options.flash) flashMetricCards();
 
     // root cause
     document.getElementById('dustPct').textContent = (r.lossFrac*100).toFixed(1)+'%';
@@ -499,13 +602,30 @@
     document.getElementById('soilBar').style.width = (r.lossFrac/MAX_LOSS_CAP*100).toFixed(1)+'%';
 
     // forecast chart
-    document.getElementById('forecastSvg').outerHTML = buildForecastSvg(r.forecast).replace('<svg ', '<svg id="forecastSvg" ');
+    renderForecastChart(r.forecast);
 
     // scenarios
-    document.getElementById('scenANet').textContent = (r.netCleanToday30>=0?'+':'') + fmt(r.netCleanToday30) + ' د.ع';
-    document.getElementById('scenBNet').textContent = '-' + fmt(r.ignore30) + ' د.ع';
+    const scenANet = document.getElementById('scenANet');
+    const scenBNet = document.getElementById('scenBNet');
+    const scenCNet = document.getElementById('scenCNet');
+    scenANet.textContent = (r.netCleanToday30>=0?'+':'') + fmt(r.netCleanToday30) + ' د.ع';
+    scenBNet.textContent = (r.ignore30>=0?'+':'') + fmt(r.ignore30) + ' د.ع';
+    scenCNet.textContent = (r.netOptimal30>=0?'+':'') + fmt(r.netOptimal30) + ' د.ع';
+    [
+      [scenANet, r.netCleanToday30],
+      [scenBNet, r.ignore30],
+      [scenCNet, r.netOptimal30]
+    ].forEach(([cell, value])=>{
+      const isOptimal = cell === scenCNet;
+      cell.classList.toggle('scenOptimal', isOptimal);
+      cell.classList.toggle('scenA', !isOptimal && value >= 0);
+      cell.classList.toggle('scenB', !isOptimal && value < 0);
+    });
     document.getElementById('scenAEff').textContent = '~100% (مثالية)';
     document.getElementById('scenBEff').textContent = Math.max(0,r.scenBEff).toFixed(0) + '% (متدهورة)';
+    document.getElementById('scenCEff').textContent = Math.max(0,100-lossFracAt(r.optimal)*100).toFixed(0) + '% (محسوبة)';
+    document.getElementById('annualSavingNote').textContent = `التنظيف كل ${Math.round(r.optimal)} يوم — بافتراض استمرار نفس ظروف الغبار والحرارة الحالية طول السنة`;
+    document.getElementById('annualSaving').textContent = (r.annualSaving>=0?'+':'') + fmt(r.annualSaving) + ' د.ع سنوياً';
 
     // cleaning cost auto suggestion
     document.getElementById('autoReset').style.display = state.autoCost ? 'none' : 'inline-block';
@@ -535,7 +655,7 @@
       capCustom.style.display = 'none';
       state.capacity = parseFloat(btn.dataset.cap);
       if(state.autoCost) setCleaningCostFromCapacity();
-      render();
+      render({flash:true});
     }
   });
   capCustom.addEventListener('input', ()=>{
@@ -543,7 +663,7 @@
     if(v > 0){
       state.capacity = v;
       if(state.autoCost) setCleaningCostFromCapacity();
-      render();
+      render({flash:true});
     }
   });
 
@@ -551,24 +671,68 @@
   tariffEl.addEventListener('input', ()=>{
     state.tariff = parseFloat(tariffEl.value);
     document.getElementById('tariffVal').textContent = state.tariff + ' د.ع';
-    render();
+    render({flash:true});
   });
 
   cleanCostInput.addEventListener('input', ()=>{
     state.cleanCost = parseFloat(cleanCostInput.value) || 0;
     state.autoCost = false;
-    render();
+    render({flash:true});
   });
   document.getElementById('autoReset').addEventListener('click', ()=>{
     setCleaningCostFromCapacity();
-    render();
+    render({flash:true});
   });
 
   const lastCleanEl = document.getElementById('lastClean');
   lastCleanEl.addEventListener('input', ()=>{
     state.lastClean = lastCleanEl.value;
-    render();
+    render({flash:true});
   });
+
+  function resetDefaults(){
+    state.capacity = 100;
+    state.tariff = DEFAULT_TARIFF;
+    state.autoCost = true;
+    [...capGroup.children].forEach(button=>button.classList.toggle('active', button.dataset.cap === '100'));
+    capCustom.style.display = 'none';
+    tariffEl.value = DEFAULT_TARIFF;
+    document.getElementById('tariffVal').textContent = DEFAULT_TARIFF + ' د.ع';
+    const today = new Date();
+    const defaultLast = new Date(today);
+    defaultLast.setDate(today.getDate() - 20);
+    state.lastClean = localIsoDate(defaultLast);
+    lastCleanEl.value = state.lastClean;
+    lastCleanEl.max = localIsoDate(today);
+    setCleaningCostFromCapacity();
+    render({flash:true});
+  }
+  document.getElementById('resetDefaults').addEventListener('click', resetDefaults);
+
+  function shareResult(){
+    const result = compute();
+    const recommendation = result.d >= result.optimal ? 'نظّف الآن' : 'أجّل التنظيف';
+    const message = `توصية اليوم: ${recommendation} — فترة الاسترداد ${Number.isFinite(result.payback) ? result.payback.toFixed(1) : 'غير متاحة'} يوم، الخسارة اليومية ${fmt(result.dailyLossIqd)} دينار.`;
+    const status = document.getElementById('shareStatus');
+    const showConfirmation = () => {
+      status.textContent = 'تم النسخ ✓';
+      setTimeout(() => { status.textContent = ''; }, 2200);
+    };
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(message).then(showConfirmation).catch(()=>{});
+      return;
+    }
+    const helper = document.createElement('textarea');
+    helper.value = message;
+    helper.setAttribute('readonly','');
+    helper.style.position = 'fixed';
+    helper.style.opacity = '0';
+    document.body.appendChild(helper);
+    helper.select();
+    if(document.execCommand('copy')) showConfirmation();
+    helper.remove();
+  }
+  document.getElementById('shareResult').addEventListener('click', shareResult);
 
   // ---------- init ----------
   let ANALYSIS = null; // filled from data.json's "analysis" block, if present
@@ -583,7 +747,7 @@
       MAX_LOSS_CAP = p.max_soiling_cap ?? MAX_LOSS_CAP;
       CLEAN_COST_PER_KW = p.cleaning_cost_per_kw_iqd ?? CLEAN_COST_PER_KW;
       TEMP_LOSS_PERCENT = p.temp_loss_percent ?? TEMP_LOSS_PERCENT;
-      THRESHOLD_DAYS = p.payback_threshold_days ?? THRESHOLD_DAYS;
+      document.getElementById('tempLossNote').textContent = TEMP_LOSS_PERCENT.toFixed(2) + '%';
       BASELINE_GLOSS = p.baseline_gloss ?? BASELINE_GLOSS;
       DEFAULT_TARIFF = p.default_tariff_iqd ?? DEFAULT_TARIFF;
       TARIFF_MIN = p.tariff_min_iqd ?? TARIFF_MIN;
@@ -594,82 +758,86 @@
     }
   }
 
-  // ---------- data-analysis charts (ECharts) ----------
+  // ---------- fixed historical data charts (ECharts) ----------
   function buildAnalysisCharts(){
     if(!ANALYSIS || typeof echarts === 'undefined') return;
+    if(!document.getElementById('soilingRateFigure')) return;
     const A = ANALYSIS;
-    const GOLD='#E3A94E', DUST='#B5654A', HEAT='#E8B23D', GREEN='#5FAE7D', RED='#C75450', MUTED='#96A1AC', TEXT='#EDEAE9';
-    const commonText = { color: TEXT, fontFamily: 'Tajawal' };
+    const GOLD='#E3A94E', DUST='#B5654A', GREEN='#5FAE7D', RED='#C75450', MUTED='#96A1AC', TEXT='#EDEAE9';
+    const charts = [];
+    const axis = {axisLine:{lineStyle:{color:MUTED}}, axisLabel:{color:MUTED, fontSize:10}};
+    const grid = {left:52, right:18, top:22, bottom:38};
+    const dateKey = value => String(value).replace('T',' ').slice(0,16);
+    const problemCases = A.problem_cases ?? [];
+    const problemTimestamps = new Set(problemCases.map(item => dateKey(item.DATE_TIME)));
+    const problemDates = new Set(problemCases.map(item => dateKey(item.DATE_TIME).slice(0,10)));
+    const initChart = id => { const chart = echarts.init(document.getElementById(id)); charts.push(chart); return chart; };
 
-    document.getElementById('corrFigure').textContent = A.irradiation_dc_correlation.toFixed(3);
-    const probPct = A.problem_case_percentage_of_daytime;
-    document.getElementById('probFigure').textContent = probPct.toFixed(1)+'% من ساعات النهار';
+    document.getElementById('soilingRateFigure').textContent = `r = ${A.daily_soiling_rate_percent_per_day.toFixed(3)}% خسارة/يوم`;
+    document.getElementById('pm10Figure').textContent = `بيرسون: ${A.pm10_soiling_loss_pearson.toFixed(3)}`;
+    document.getElementById('pvFigure').textContent = `بيرسون نهاراً: ${A.daytime_irradiation_dc_pearson.toFixed(3)} — ${A.problem_case_count} حالة مشكلة`;
+    document.getElementById('rRateNote').textContent = `${A.daily_soiling_rate_percent_per_day.toFixed(3)}% خسارة/يوم`;
 
-    // 1) correlation gauge
-    const c1 = echarts.init(document.getElementById('chartCorrelation'));
-    c1.setOption({
-      series: [{
-        type: 'gauge', min:0, max:1, startAngle:200, endAngle:-20,
-        progress:{show:true, width:14, itemStyle:{color:GOLD}},
-        axisLine:{lineStyle:{width:14, color:[[1,'rgba(237,234,233,0.12)']]}},
-        pointer:{show:false}, axisTick:{show:false}, splitLine:{show:false}, axisLabel:{show:false},
-        detail:{valueAnimation:true, fontSize:20, fontWeight:800, color:GOLD, offsetCenter:[0,'20%'], formatter:v=>v.toFixed(2)},
-        title:{show:true, fontSize:11, color:MUTED, offsetCenter:[0,'55%']},
-        data:[{value:A.irradiation_dc_correlation, name:'معامل الارتباط'}]
-      }]
-    });
-
-    // 2) weather range bar (temperature & irradiation, min/avg/max)
-    const c2 = echarts.init(document.getElementById('chartWeather'));
-    c2.setOption({
-      textStyle: commonText,
-      grid:{left:38, right:14, top:28, bottom:26},
-      legend:{top:0, textStyle:{color:MUTED, fontSize:10}, data:['الحرارة °م','الإشعاع kWh/m²']},
-      xAxis:{type:'category', data:['أدنى','متوسط','أقصى'], axisLine:{lineStyle:{color:MUTED}}, axisLabel:{color:MUTED, fontSize:10}},
-      yAxis:{type:'value', splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}, axisLabel:{color:MUTED, fontSize:10}},
-      tooltip:{trigger:'axis'},
+    const soilingPoints = A.soiling_scatter_sample.map(point => [point.days_since_last_cleaning, point.ESTIMATED_SOILING_LOSS_PERCENT]);
+    const soilingX = soilingPoints.map(point => point[0]);
+    const soilingMin = Math.min(...soilingX), soilingMax = Math.max(...soilingX);
+    const soilingChart = initChart('chartSoilingRate');
+    soilingChart.setOption({
+      textStyle:{color:TEXT, fontFamily:'Tajawal'}, grid,
+      tooltip:{trigger:'item', formatter:p=>`الأيام: ${p.value[0].toFixed(1)}<br>الخسارة: ${p.value[1].toFixed(2)}%`},
+      xAxis:{type:'value', name:'الأيام', nameTextStyle:{color:MUTED}, ...axis},
+      yAxis:{type:'value', name:'الخسارة %', nameTextStyle:{color:MUTED}, ...axis, splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}},
       series:[
-        {name:'الحرارة °م', type:'bar', data:[A.nasa_min_temp_c, A.nasa_avg_temp_c, A.nasa_max_temp_c], itemStyle:{color:HEAT, borderRadius:[3,3,0,0]}},
-        {name:'الإشعاع kWh/m²', type:'bar', data:[A.nasa_min_irradiation, A.nasa_avg_irradiation, A.nasa_max_irradiation], itemStyle:{color:GOLD, borderRadius:[3,3,0,0]}}
+        {name:'القياسات', type:'scatter', data:soilingPoints, symbolSize:5, itemStyle:{color:DUST, opacity:.58}},
+        {name:'الانحدار الخطي', type:'line', data:[[soilingMin, A.daily_soiling_rate_intercept + A.daily_soiling_rate_percent_per_day*soilingMin], [soilingMax, A.daily_soiling_rate_intercept + A.daily_soiling_rate_percent_per_day*soilingMax]], showSymbol:false, lineStyle:{color:GOLD, width:2}}
       ]
     });
 
-    // 3) problem cases donut
-    const c3 = echarts.init(document.getElementById('chartProblems'));
-    const totalEst = Math.round(A.high_irradiation_low_power_cases / (probPct/100));
-    c3.setOption({
-      textStyle: commonText,
-      tooltip:{trigger:'item'},
-      legend:{bottom:0, textStyle:{color:MUTED, fontSize:10}},
-      series:[{
-        type:'pie', radius:['48%','72%'], center:['50%','44%'],
-        label:{show:false}, labelLine:{show:false},
-        data:[
-          {value:A.high_irradiation_low_power_cases, name:'حالات مشكلة ('+A.high_irradiation_low_power_cases+')', itemStyle:{color:RED}},
-          {value:Math.max(0,totalEst-A.high_irradiation_low_power_cases), name:'أداء طبيعي', itemStyle:{color:'rgba(237,234,233,0.12)'}}
-        ]
-      }]
+    const pm10Points = A.pm10_soiling_scatter_sample.map(point => [point.pm10_avg, point.ESTIMATED_SOILING_LOSS_PERCENT]);
+    const pm10Chart = initChart('chartPm10');
+    pm10Chart.setOption({
+      textStyle:{color:TEXT, fontFamily:'Tajawal'}, grid,
+      tooltip:{trigger:'item', formatter:p=>`PM10: ${p.value[0].toFixed(3)}<br>الخسارة: ${p.value[1].toFixed(2)}%`},
+      xAxis:{type:'value', name:'PM10', nameTextStyle:{color:MUTED}, ...axis},
+      yAxis:{type:'value', name:'الخسارة %', nameTextStyle:{color:MUTED}, ...axis, splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}},
+      series:[{type:'scatter', data:pm10Points, symbolSize:5, itemStyle:{color:GREEN, opacity:.58}}]
     });
 
-    // 4) soiling loss range bar
-    const c4 = echarts.init(document.getElementById('chartSoiling'));
-    c4.setOption({
-      textStyle: commonText,
-      grid:{left:110, right:30, top:16, bottom:24},
-      xAxis:{type:'value', max:40, axisLabel:{color:MUTED, fontSize:10, formatter:'{value}%'}, splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}},
-      yAxis:{type:'category', data:['أقصى خسارة مرصودة','متوسط الخسارة'], axisLabel:{color:TEXT, fontSize:11}, axisLine:{lineStyle:{color:MUTED}}},
-      tooltip:{trigger:'axis', axisPointer:{type:'shadow'}},
-      series:[{
-        type:'bar', data:[
-          {value:A.max_soiling_loss_percent, itemStyle:{color:RED}},
-          {value:A.avg_soiling_loss_percent, itemStyle:{color:DUST}}
-        ],
-        barWidth:'45%',
-        label:{show:true, position:'right', color:TEXT, formatter:p=>p.value.toFixed(1)+'%'}
-      }]
+    const glossChart = initChart('chartGloss');
+    glossChart.setOption({
+      textStyle:{color:TEXT, fontFamily:'Tajawal'}, grid,
+      tooltip:{trigger:'axis'}, xAxis:{type:'category', data:A.gloss_curve.map(point => point.days_approx), name:'الأيام', ...axis},
+      yAxis:{type:'value', name:'متوسط gloss', nameTextStyle:{color:MUTED}, ...axis, splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}},
+      series:[{type:'line', smooth:true, data:A.gloss_curve.map(point => point.gloss_mean), symbolSize:5, lineStyle:{color:GOLD, width:2}, itemStyle:{color:GOLD}, areaStyle:{color:'rgba(227,169,78,0.12)'}}]
     });
 
-    window.addEventListener('resize', ()=>{ [c1,c2,c3,c4].forEach(c=>c.resize()); });
+    const pvNormal = [], pvProblem = [];
+    A.irradiation_dc_power_scatter_sample.forEach(point => {
+      const value = [point.IRRADIATION, point.DC_POWER];
+      (problemTimestamps.has(dateKey(point.DATE_TIME)) ? pvProblem : pvNormal).push(value);
+    });
+    const pvChart = initChart('chartPv');
+    pvChart.setOption({
+      textStyle:{color:TEXT, fontFamily:'Tajawal'}, grid,
+      legend:{top:0, textStyle:{color:MUTED, fontSize:10}}, tooltip:{trigger:'item'},
+      xAxis:{type:'value', name:'IRRADIATION', nameTextStyle:{color:MUTED}, ...axis},
+      yAxis:{type:'value', name:'DC_POWER', nameTextStyle:{color:MUTED}, ...axis, splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}},
+      series:[
+        {name:'نقاط عادية', type:'scatter', data:pvNormal, symbolSize:6, itemStyle:{color:GREEN, opacity:.55}},
+        {name:'أيام مشكلة', type:'scatter', data:pvProblem, symbolSize:8, itemStyle:{color:RED, opacity:.9}}
+      ]
+    });
+
+    const dailyDates = A.daily_average_dc_power.map(point => point.date);
+    const dailyChart = initChart('chartDaily');
+    dailyChart.setOption({
+      textStyle:{color:TEXT, fontFamily:'Tajawal'}, grid:{left:58, right:18, top:22, bottom:48},
+      tooltip:{trigger:'axis'}, xAxis:{type:'category', data:dailyDates, axisLabel:{...axis.axisLabel, rotate:35}, axisLine:axis.axisLine},
+      yAxis:{type:'value', name:'متوسط DC_POWER', nameTextStyle:{color:MUTED}, ...axis, splitLine:{lineStyle:{color:'rgba(237,234,233,0.08)'}}},
+      series:[{name:'الإنتاج اليومي', type:'line', data:A.daily_average_dc_power.map(point => point.daily_average_dc_power), symbolSize:5, lineStyle:{color:GREEN, width:2}, itemStyle:{color:GREEN}, markPoint:{symbol:'pin', symbolSize:34, itemStyle:{color:RED}, label:{color:'#fff', fontSize:9}, data:dailyDates.filter(date => problemDates.has(date)).map(date => ({coord:[date, A.daily_average_dc_power[dailyDates.indexOf(date)].daily_average_dc_power], name:'مشكلة'}))}}]
+    });
+
+    window.addEventListener('resize', ()=>charts.forEach(chart=>chart.resize()));
   }
 
   (async function init(){
@@ -683,14 +851,15 @@
     const today = new Date();
     const defaultLast = new Date(today);
     defaultLast.setDate(today.getDate() - 20);
-    const iso = defaultLast.toISOString().slice(0,10);
+    const iso = localIsoDate(defaultLast);
     lastCleanEl.value = iso;
-    lastCleanEl.max = today.toISOString().slice(0,10);
+    lastCleanEl.max = localIsoDate(today);
     state.lastClean = iso;
 
     document.getElementById('tariffVal').textContent = state.tariff + ' د.ع';
     setCleaningCostFromCapacity();
     render();
+    initScrollReveal();
     buildAnalysisCharts();
   })();
 </script>

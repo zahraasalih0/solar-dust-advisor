@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SolarOptima - تحليل البيانات</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='13' fill='%23FFB703'/%3E%3Cg stroke='%23FFB703' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M32 5v10M32 49v10M5 32h10M49 32h10M13 13l7 7M44 44l7 7M51 13l-7 7M20 44l-7 7'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="{{ url_for('static', filename='echarts.min.js') }}"></script>
+<script src="/assets/particles.js"></script>
+<style>
+  :root{--bg:#1E1E1E;--panel:#252525;--panel-raised:#2D2D2D;--gold:#FFB703;--orange:#F08A24;--teal:#2EC4B6;--green:#3A8F68;--text:#F2F0EA;--muted:#A8A39A;--line:rgba(242,240,234,.11)}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Tajawal','Segoe UI',Tahoma,Arial,sans-serif}
+  body{line-height:1.55}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 56px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:22px}
+  .brand{display:flex;align-items:center;gap:13px}.sun{width:38px;height:38px;flex:none}.brand h1{font-size:1.35rem;margin:0;font-weight:800}.brand p{margin:2px 0 0;color:var(--muted);font-size:.82rem}
+  .badge{color:var(--gold);border:1px solid rgba(255,183,3,.45);padding:5px 12px;border-radius:100px;font-size:.72rem;white-space:nowrap}
+  .tabs{display:flex;gap:6px;margin-bottom:28px;border-bottom:1px solid var(--line);padding-bottom:10px}.tab{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:700;padding:8px 14px;border-bottom:2px solid transparent}.tab:hover,.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .intro{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px}.intro h2{font-size:1.75rem;margin:0 0 12px;font-weight:900}.story{max-width:780px}.story-line{margin:0 0 8px;font-size:.9rem;line-height:1.8}.story-problem{color:var(--muted)}.story-evidence{color:var(--gold);font-weight:800;font-size:1rem}.story-solution{color:var(--text);font-weight:700;margin-bottom:0}.decision-link{background:var(--gold);color:#211805;text-decoration:none;font-weight:800;padding:11px 18px;border-radius:9px;white-space:nowrap;transition:background .15s}.decision-link:hover{background:#ffc533}
+  .example-note{color:var(--muted);border-right:3px solid var(--gold);padding:10px 14px;margin:-8px 0 24px;font-size:.82rem;line-height:1.7}.example-note strong{color:var(--gold);display:block}
+  .impact-summary{display:flex;align-items:baseline;gap:12px;margin:12px 0 0}.impact-value{font-size:2.35rem;line-height:1;font-weight:900;color:var(--gold)}.impact-label{font-size:.78rem;color:var(--muted)}
+  .charts{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:19px 20px;min-width:0}.card h3{font-size:1rem;margin:0 0 4px;font-weight:800}.card .sub{font-size:.78rem;color:var(--gold);min-height:24px;margin-bottom:2px}.chart{height:360px;width:100%}.chart-note{color:var(--muted);font-size:.72rem;line-height:1.6;margin:0}.weather-card .chart{height:340px}.comparison-note{color:var(--muted);font-size:.78rem;line-height:1.7;margin:0}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;transition-delay:var(--reveal-delay,0ms)}.reveal.is-visible{opacity:1;transform:translateY(0)}
+  .status{color:var(--muted);font-size:.86rem;text-align:center;padding:35px 0}.status.error{color:#e48c84}
+  footer{text-align:center;color:var(--muted);font-size:.74rem;margin-top:34px}
+  @media(max-width:1024px){.wrap{padding-inline:18px}.chart{height:340px}.weather-card .chart{height:320px}}
+  @media(max-width:760px){.wrap{padding:20px 14px 40px}header,.intro{align-items:flex-start;flex-direction:column}.badge{display:none}.charts{grid-template-columns:1fr}.chart{height:300px}.weather-card .chart{height:290px}.decision-link{width:100%;text-align:center}.intro h2{font-size:1.5rem}}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="sun" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="9" fill="#FFB703"/><g stroke="#FFB703" stroke-width="2.4" stroke-linecap="round"><line x1="20" y1="2" x2="20" y2="7"/><line x1="20" y1="33" x2="20" y2="38"/><line x1="2" y1="20" x2="7" y2="20"/><line x1="33" y1="20" x2="38" y2="20"/><line x1="7.2" y1="7.2" x2="10.6" y2="10.6"/><line x1="29.4" y1="29.4" x2="32.8" y2="32.8"/><line x1="32.8" y1="7.2" x2="29.4" y2="10.6"/><line x1="10.6" y1="29.4" x2="7.2" y2="32.8"/></g></svg>
+      <div><h1>لوحة قرار التنظيف </h1><p>قراءة بيانات الغبار وأداء الالواح الشمسية</p></div>
+    </div>
+    <div class="badge">SolarOptima</div>
+  </header>
+
+  <nav class="tabs" aria-label="التنقل الرئيسي">
+    <a class="tab active" href="/">تحليل البيانات</a>
+    <a class="tab" href="/decision">دعم القرار</a>
+  </nav>
+
+  <section class="intro">
+    <div class="story"><h2>تحليل بيانات ألالواح الشمسية</h2>
+      <!-- <p class="story-line story-problem">أصحاب المحطات الشمسية في العراق غالباً يقررون تنظيف الألواح بالحدس: إما تنظيف زائد وتكلفة أعلى، أو تأجيل التنظيف وخسارة إنتاج بصمت.</p> -->
+      <p class="story-line story-evidence">بعد تحليل آلاف نقاط البيانات الحقيقية من التلوث والطقس والإنتاج، ظهر أن معدل التراكم الفعلي أبطأ بحوالي 12 ضعفاً من التقدير الشائع.</p><p class="story-line story-solution">الحل: يحوّل هذا النظام هذا التحليل إلى قرار واحد بسيط: هل يستحق التنظيف اليوم تكلفته أم لا؟</p><div class="impact-summary"><strong id="impactValue" class="impact-value">—</strong><span class="impact-label">الخسارة اليومية التقديرية لكل 100 كيلوواط بسبب الغبار — بناءً على بياناتنا الفعلية</span></div></div>
+    <a class="decision-link" href="/decision">شنو القرار المناسب ؟ ←</a>
+  </section>
+  <div class="example-note"><strong>مثال توضيحي — سيناريو افتراضي</strong>مصنع بمنظومة شمسية بقدرة 100 كيلوواط قد يتجنب خسارة تقارب 2,200 د.ع يومياً عند تنظيف الألواح بالوقت المناسب. هذا المثال للتوضيح فقط وليس بيانات عميل حقيقي.</div>
+
+  <main id="charts" class="charts" hidden>
+    <article class="card reveal"><h3>نسبة خسارة الغبار حسب مدة الاتساخ</h3><div id="rateFigure" class="sub"></div><div id="lossChart" class="chart"></div></article>
+    <article class="card weather-card reveal"><h3>مدى الحرارة والإشعاع المسجل ببغداد</h3><div class="sub">مؤشرات الطقس المسجلة لبغداد</div><div id="weatherChart" class="chart"></div><p class="chart-note">هذا المدى الحراري والإشعاعي هو الأساس اللي تُبنى عليه كل حسابات الحاسبة — الحرارة العالية تقلل كفاءة الألواح، والإشعاع القوي يزيد الإنتاج المحتمل، والاثنين يتصارعان بنفس الوقت بمناخ العراق.</p></article>
+    <article class="card reveal"><h3>الزمن أهم من أي عامل طقس منفرد</h3><div class="sub">قوة تأثير كل عامل على تراكم التلوث (معامل الارتباط المطلق)</div><div id="climateFactorsChart" class="chart"></div><p class="chart-note">لا يوجد عامل طقس منفرد يتحكم بشكل قوي بتراكم التلوث — وهذا بالضبط سبب اعتماد حاسبتنا على عدد الأيام منذ آخر تنظيف كمعيار أساسي، بدل الحاجة لحساسات طقس معقدة ومكلفة.</p></article>
+  </main>
+  <div id="status" class="status">جارٍ تحميل بيانات التحليل...</div>
+  
+</div>
+<script>
+  const COLORS = {gold:'#FFB703', orange:'#F08A24', teal:'#2EC4B6', green:'#3A8F68', text:'#F2F0EA', muted:'#A8A39A', grid:'rgba(242,240,234,.10)'};
+  const charts = [];
+  const number = value => Number(value).toLocaleString('en-US', {maximumFractionDigits:2});
+  const axis = {axisLine:{lineStyle:{color:COLORS.muted}}, axisLabel:{color:COLORS.muted,fontSize:11}, nameTextStyle:{color:COLORS.muted}};
+  const common = {textStyle:{color:COLORS.text,fontFamily:'Tajawal'}, animationDuration:700};
+  function init(id){const chart=echarts.init(document.getElementById(id));charts.push(chart);return chart;}
+  function render(data){
+    const analysis=data.analysis;
+    const ratePercentPerDay=Number(analysis.daily_soiling_rate_percent_per_day);
+    const maxSoilingLossPercent=Number(data.max_soiling_cap) * 100;
+    const comparisonDays=[10,30,60,90,120];
+    const regressionLosses=comparisonDays.map(days => Math.min(ratePercentPerDay * days, maxSoilingLossPercent));
+    document.getElementById('rateFigure').textContent=`معدل تراكم الغبار r = ${number(analysis.daily_soiling_rate_percent_per_day)}% خسارة/يوم`;
+    const defaultLossFraction=Math.min(Number(data.daily_soiling_rate)*20,Number(data.max_soiling_cap));
+    const dailyImpact=100*Number(data.psh)*Number(data.pr)*defaultLossFraction*Number(data.default_tariff_iqd);
+    document.getElementById('impactValue').textContent=`${Math.round(dailyImpact).toLocaleString('en-US')} د.ع`;
+
+    const loss=init('lossChart');
+    loss.setOption({...common,tooltip:{trigger:'axis',formatter:items=>`${items[0].axisValue} يوم<br>الخسارة المحسوبة: ${number(items[0].value)}%`},grid:{left:54,right:18,top:18,bottom:44},xAxis:{type:'category',data:comparisonDays.map(days=>days+' يوم'),...axis},yAxis:{type:'value',name:'الخسارة %',...axis,splitLine:{lineStyle:{color:COLORS.grid}}},series:[{type:'bar',data:regressionLosses,barMaxWidth:42,itemStyle:{borderRadius:[3,3,0,0],color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:COLORS.gold},{offset:1,color:COLORS.orange}])}}]});
+    const weather=init('weatherChart');
+    const weatherCategories=['أدنى','متوسط','أقصى'];
+    const weatherTemperature=[data.nasa_min_temp_c,data.nasa_avg_temp_c,data.nasa_max_temp_c];
+    const weatherIrradiation=[data.nasa_min_irradiation,data.nasa_avg_irradiation,data.nasa_max_irradiation];
+    const formatWeatherValue=value=>Number(value).toFixed(2).replace(/\.?0+$/,'');
+    weather.setOption({...common,grid:{left:54,right:18,top:42,bottom:42},tooltip:{trigger:'axis',valueFormatter:formatWeatherValue},legend:{top:0,textStyle:{color:COLORS.muted,fontFamily:'Tajawal'}},xAxis:{type:'category',data:weatherCategories,...axis},yAxis:{type:'value',min:0,name:'القيمة',...axis,splitLine:{lineStyle:{color:COLORS.grid}}},series:[{name:'الحرارة °م',type:'bar',data:weatherTemperature,barMaxWidth:34,itemStyle:{color:COLORS.teal},label:{show:true,position:'top',color:COLORS.text,formatter:item=>formatWeatherValue(item.value)}},{name:'الإشعاع kWh/m²',type:'bar',data:weatherIrradiation,barMaxWidth:34,itemStyle:{color:COLORS.green},label:{show:true,position:'top',color:COLORS.text,formatter:item=>formatWeatherValue(item.value)}}]});
+
+    const climateFactors=analysis.climate_factor_correlations || [];
+    climateFactors.sort((left,right)=>Number(right.correlation)-Number(left.correlation));
+    const climateChart=init('climateFactorsChart');
+    climateChart.setOption({...common,grid:{left:132,right:42,top:18,bottom:32},tooltip:{trigger:'axis',formatter:items=>`${items[0].name}: ${number(items[0].value)}`},xAxis:{type:'value',min:0,max:1,...axis,splitLine:{lineStyle:{color:COLORS.grid}}},yAxis:{type:'category',data:climateFactors.map(item=>item.factor),axisLabel:{color:COLORS.muted,fontSize:11}},series:[{type:'bar',data:climateFactors.map(item=>item.correlation),barMaxWidth:24,itemStyle:{color:new echarts.graphic.LinearGradient(1,0,0,0,[{offset:0,color:COLORS.gold},{offset:1,color:COLORS.orange}])},label:{show:true,position:'right',color:COLORS.text,formatter:item=>number(item.value)}}]});
+    document.getElementById('charts').hidden=false;document.getElementById('status').hidden=true;
+    initScrollReveal();
+  }
+  let revealObserver;
+  function initScrollReveal(){
+    if(revealObserver || window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.reveal').forEach(element=>element.classList.add('is-visible'));return;}
+    revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{entry.target.classList.toggle('is-visible',entry.isIntersecting);}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.reveal').forEach((element,index)=>{element.style.setProperty('--reveal-delay',`${Math.min(index,5)*70}ms`);revealObserver.observe(element);});
+    requestAnimationFrame(()=>document.querySelectorAll('.reveal').forEach(element=>{const bounds=element.getBoundingClientRect();const visible=bounds.top<window.innerHeight*.94&&bounds.bottom>window.innerHeight*.06;element.classList.toggle('is-visible',visible);}));
+  }
+  async function load(){
+    const status=document.getElementById('status');
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),3000);
+    try{const response=await fetch('/api/params',{signal:controller.signal});if(!response.ok)throw new Error('params request failed');render(await response.json());}
+    catch(error){document.getElementById('charts').hidden=true;status.hidden=false;status.textContent='تعذر تحميل بيانات التحليل، تأكد إن السيرفر شغّال';status.classList.add('error');console.error(error);}
+    finally{clearTimeout(timeout);}
+  }
+  window.addEventListener('resize',()=>charts.forEach(chart=>chart.resize()));
+  if('ResizeObserver' in window){new ResizeObserver(()=>charts.forEach(chart=>chart.resize())).observe(document.getElementById('charts'));}
+  load();
+</script>
+</body>
+</html>
