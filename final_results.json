@@ -1,0 +1,25 @@
+{
+    "pv_analysis": {
+        "pv_date_start": "2020-05-15 00:00:00",
+        "pv_date_end": "2020-06-17 23:45:00",
+        "irradiation_dc_correlation": 0.9653396001455984,
+        "high_irradiation_low_power_cases": 27,
+        "unique_problem_timestamps": 7,
+        "problem_case_percentage_of_daytime": 0.08789634741845173
+    },
+    "soiling_analysis": {
+        "baseline_gloss": 95.6598304938909,
+        "average_estimated_soiling_loss_percent": 1.7317251453292044,
+        "maximum_estimated_soiling_loss_percent": 33.98482970965233
+    },
+    "nasa_power_baghdad": {
+        "date_start": "2020-05-15 00:00:00",
+        "date_end": "2020-06-17 00:00:00",
+        "average_temperature_c": 33.79500000000001,
+        "minimum_temperature_c": 26.25,
+        "maximum_temperature_c": 37.63,
+        "average_solar_irradiation": 7.992676470588236,
+        "minimum_solar_irradiation": 6.5782,
+        "maximum_solar_irradiation": 8.6357
+    }
+}
