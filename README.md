@@ -1,10 +1,8 @@
-# ☀️ SolarOptima: A Smart Decision Support System for Solar Panel Cleaning in Iraq
+# ☀️ SolarOptima: A Smart Decision Support System for Solar Panel Cleaning 
 
 An interactive dashboard that turns dust, weather, and solar production data into a **clear financial decision** for solar plant owners. It answers one question:
 
 > **Will cleaning my solar panels today save me more money than the cleaning itself costs?**
-
-🔗 **Live dashboard:** _(add your Streamlit Cloud link here after deployment)_
 
 ---
 
@@ -128,20 +126,11 @@ The dashboard opens automatically in your browser at a local address (localhost)
 
 ---
 
-## 🔭 Next Steps
-
-- Calibrate the soiling rate with real Iraqi plant data.
-- Connect live production data from the plant.
-- Automatic alerts when dust reaches a set threshold.
-- Run a pilot with a maintenance company or factory.
-
----
-
 ## 👥 Team
 
 | Name | Role |
 |---|---|
-| _(Name)_ | Data Lead |
-| _(Name)_ | Dashboard Builder |
-| _(Name)_ | Business & Numbers Lead |
-| _(Name)_ | Design & UX |
+| Tabark | Data Lead |
+| Sarah | Dashboard Builder |
+| Amna | Business & Numbers Lead |
+| Zahraa | Design & UX |
